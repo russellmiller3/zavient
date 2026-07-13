@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Signal Desk — competitor intelligence by Zavient</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F3F6F0;
+  --paper:#FAFBF7;
+  --ink:#23301E;
+  --ink-soft:#48543F;
+  --ink-mute:#7E8873;
+  --green:#3A5A40;
+  --green-lt:#E4EBE0;
+  --brown:#5E4A32;
+  --brown-lt:#EDE7DC;
+  --blue:#2E4A5E;
+  --blue-lt:#E1E8ED;
+  --alert:#8C3B2E;
+  --alert-lt:#F0E2DE;
+  --rule:#D9E0D2;
+  --rule-dark:#B9C4AE;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:'Newsreader',Georgia,serif;
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.mono{font-family:'IBM Plex Mono',monospace;}
+.sans{font-family:'Source Sans 3',sans-serif;}
+
+.wrap{max-width:1060px;margin:0 auto;padding:0 40px;}
+
+/* ============ HEADER ============ */
+header{padding:30px 0 0;}
+.header-line{display:flex;justify-content:space-between;align-items:baseline;padding-bottom:16px;border-bottom:1px solid var(--ink);}
+.brand{font-family:'Newsreader',serif;font-size:19px;font-weight:600;letter-spacing:-0.01em;}
+.brand span{font-weight:400;font-style:italic;color:var(--green);}
+.header-meta{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--ink-mute);display:flex;gap:24px;}
+.header-meta b{color:var(--green);font-weight:500;}
+
+/* ============ HERO ============ */
+.hero{padding:44px 0 34px;display:grid;grid-template-columns:1fr 230px;gap:36px;align-items:center;}
+.hero-text{min-width:0;}
+.hero-art{justify-self:end;}
+.hero-art svg{display:block;width:230px;height:auto;}
+.hero-stats{grid-column:1/-1;}
+.hero-date{font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-mute);margin-bottom:14px;}
+.hero h1{
+  font-size:33px;font-weight:500;letter-spacing:-0.01em;line-height:1.25;max-width:760px;
+}
+.hero h1 em{font-style:italic;color:var(--green);}
+.hero .deck{
+  font-size:21px;font-weight:400;line-height:1.45;max-width:680px;color:var(--ink-soft);margin-top:10px;
+}
+.hero .deck em{font-style:italic;color:var(--green);}
+.hero-stats{
+  margin-top:28px;display:flex;gap:44px;flex-wrap:wrap;
+  padding-top:18px;border-top:1px solid var(--rule);
+}
+.stat .n{font-family:'Newsreader',serif;font-size:26px;font-weight:500;line-height:1;}
+.stat .n.hot{color:var(--alert);}
+.stat .l{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-mute);margin-top:5px;}
+
+/* ============ TABS ============ */
+.tabbar{display:flex;gap:6px;border-bottom:1px solid var(--rule-dark);}
+.tab{
+  font-family:'Source Sans 3',sans-serif;font-size:14px;font-weight:600;letter-spacing:0.01em;
+  padding:10px 20px 11px;cursor:pointer;color:var(--ink-soft);background:none;
+  border:1px solid transparent;border-bottom:none;margin-bottom:-1px;transition:color .15s;
+}
+.tab:hover{color:var(--ink);border-color:var(--rule);border-bottom:none;}
+.tab.active{
+  color:var(--green);background:var(--bg);
+  border-color:var(--rule-dark);border-bottom:1px solid var(--bg);
+  border-radius:3px 3px 0 0;
+}
+.tab .count{color:var(--ink-mute);font-weight:400;margin-left:6px;font-family:'IBM Plex Mono',monospace;font-size:12px;}
+.tab.active .count{color:var(--green);}
+
+main{padding:34px 0 20px;}
+.panel{display:none;}
+.panel.active{display:block;animation:fade .35s ease both;}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+
+/* ============ SIGNALS ============ */
+.section-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;}
+.section-title{font-size:22px;font-weight:500;font-style:italic;color:var(--green);}
+.section-note{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-mute);}
+
+.grid-signals{display:grid;grid-template-columns:200px 1fr;gap:44px;align-items:start;margin-top:18px;}
+
+.rail-title{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-mute);padding-bottom:9px;border-bottom:1px solid var(--rule-dark);margin-bottom:4px;}
+.rail-item{display:flex;justify-content:space-between;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--rule);cursor:pointer;}
+.rail-item:hover .rail-name{color:var(--green);}
+.rail-name{font-size:15.5px;font-weight:500;transition:color .15s;}
+.rail-n{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink-mute);}
+.rail-n.hot{color:var(--alert);font-weight:500;}
+
+.signal{
+  display:grid;grid-template-columns:56px 1fr auto;gap:20px;align-items:baseline;
+  padding:15px 0;border-bottom:1px solid var(--rule);
+}
+.signal:first-of-type{border-top:1px solid var(--rule-dark);}
+.sev{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.05em;text-transform:uppercase;}
+.sev::before{content:'●';margin-right:6px;font-size:9px;vertical-align:1px;}
+.sev-high{color:var(--alert);}
+.sev-med{color:var(--brown);}
+.sev-low{color:var(--ink-mute);}
+.sig-line{font-size:16px;}
+.sig-line b{font-weight:600;}
+.sig-src{margin-top:3px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--ink-mute);}
+.sig-act{
+  font-family:'Source Sans 3',sans-serif;font-size:12.5px;font-weight:600;color:var(--blue);cursor:pointer;white-space:nowrap;
+}
+.sig-act:hover{text-decoration:underline;}
+
+/* ============ AI ANSWERS ============ */
+.sov-row{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin:18px 0 34px;
+  border-top:1px solid var(--rule-dark);border-bottom:1px solid var(--rule-dark);
+}
+.sov{padding:16px 20px 14px 0;border-right:1px solid var(--rule);}
+.sov:last-child{border-right:none;}
+.sov + .sov{padding-left:20px;}
+.sov-engine{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-mute);margin-bottom:8px;}
+.sov-line{display:flex;align-items:flex-end;gap:12px;}
+.sov-num{font-family:'Newsreader',serif;font-size:30px;font-weight:500;line-height:0.9;}
+.sov-num small{font-size:15px;color:var(--ink-mute);font-weight:400;}
+.sov-spark{flex:1;height:26px;}
+.sov-delta{font-family:'IBM Plex Mono',monospace;font-size:10.5px;margin-top:8px;}
+.d-down{color:var(--alert);}
+.d-up{color:var(--green);}
+.d-flat{color:var(--ink-mute);}
+
+table.pt{width:100%;border-collapse:collapse;margin-bottom:40px;}
+.pt th{
+  font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.08em;text-transform:uppercase;
+  color:var(--ink-mute);font-weight:500;text-align:left;padding:0 14px 9px 0;border-bottom:1px solid var(--ink);
+}
+.pt td{padding:12px 14px 12px 0;border-bottom:1px solid var(--rule);vertical-align:baseline;}
+.pt .q{font-size:15.5px;font-style:italic;color:var(--ink-soft);}
+.pt .r{font-family:'IBM Plex Mono',monospace;font-size:12px;white-space:nowrap;}
+.r-yes{color:var(--green);}
+.r-no{color:var(--alert);}
+.r-part{color:var(--brown);}
+.lost{
+  font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.06em;text-transform:uppercase;
+  color:var(--alert);border:1px solid var(--alert);padding:1px 7px;margin-left:10px;white-space:nowrap;
+}
+
+.fix-head{margin-bottom:6px;}
+.fix{padding:18px 0;border-bottom:1px solid var(--rule);display:grid;grid-template-columns:130px 1fr;gap:24px;}
+.fix:first-of-type{border-top:1px solid var(--rule-dark);margin-top:16px;}
+.fix-tag{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.06em;text-transform:uppercase;color:var(--blue);}
+.fix h4{font-size:17px;font-weight:600;margin-bottom:5px;line-height:1.4;}
+.fix h4 em{font-style:italic;color:var(--alert);}
+.fix p{font-size:15px;color:var(--ink-soft);}
+.fix-why{margin-top:7px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--ink-mute);}
+
+.upsell{
+  margin-top:34px;padding:26px 30px;background:var(--green);color:#F2F5EC;
+  display:grid;grid-template-columns:1fr auto;gap:30px;align-items:center;border-radius:2px;
+}
+.upsell .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#B9CBAF;margin-bottom:9px;}
+.upsell h4{font-family:'Newsreader',serif;font-size:22px;font-weight:500;line-height:1.35;margin-bottom:8px;}
+.upsell h4 em{font-style:italic;color:#D8E4CE;}
+.upsell p{font-size:14.5px;color:#C9D6BF;max-width:560px;}
+.upsell-btn{
+  font-family:'Source Sans 3',sans-serif;font-size:14px;font-weight:600;
+  background:#F2F5EC;color:var(--green);border:none;padding:13px 24px;border-radius:2px;cursor:pointer;white-space:nowrap;
+}
+.upsell-btn:hover{background:#fff;}
+
+/* ============ BATTLECARDS ============ */
+.grid-bc{display:grid;grid-template-columns:280px 1fr;gap:44px;align-items:start;margin-top:18px;}
+
+.bc-index-title{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-mute);padding-bottom:9px;border-bottom:1px solid var(--rule-dark);}
+.bc-item{padding:13px 0;border-bottom:1px solid var(--rule);cursor:pointer;}
+.bc-item:hover .bc-item-name{color:var(--green);}
+.bc-item.sel{border-left:3px solid var(--green);padding-left:12px;margin-left:-15px;}
+.bc-item-name{font-size:16px;font-weight:600;transition:color .15s;}
+.bc-item.sel .bc-item-name{color:var(--green);}
+.bc-item-meta{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--ink-mute);margin-top:3px;}
+.bc-status{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.05em;text-transform:uppercase;}
+.st-new{color:var(--alert);}
+.st-ok{color:var(--green);}
+.st-stale{color:var(--brown);}
+
+.bc-doc{border-top:2px solid var(--ink);padding-top:20px;}
+.bc-doc-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px;}
+.bc-doc-title{font-size:24px;font-weight:500;}
+.bc-doc-title em{font-style:italic;color:var(--green);}
+.bc-stamp{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--ink-mute);}
+.bc-changed{
+  font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--alert);margin-bottom:22px;
+}
+.bc-cols{display:grid;grid-template-columns:1fr 1fr;gap:40px;}
+.bc-col h5{
+  font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;font-weight:500;
+  padding-bottom:8px;border-bottom:1px solid var(--rule-dark);margin-bottom:4px;
+}
+.bc-col.them h5{color:var(--brown);}
+.bc-col.us h5{color:var(--green);}
+.bc-col li{list-style:none;padding:11px 0;border-bottom:1px solid var(--rule);font-size:15px;line-height:1.55;}
+.bc-col li b{font-weight:600;}
+.bc-foot{margin-top:22px;padding-top:14px;border-top:1px solid var(--rule-dark);font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--ink-mute);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.bc-foot .send{color:var(--blue);font-weight:500;cursor:pointer;}
+.bc-foot .send:hover{text-decoration:underline;}
+
+footer{padding:40px 0 56px;margin-top:30px;border-top:1px solid var(--rule-dark);display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--ink-mute);}
+footer b{color:var(--ink);font-weight:500;}
+
+@media (max-width:820px){
+  .wrap{padding:0 22px;}
+  .hero{grid-template-columns:1fr;}
+  .hero-art{display:none;}
+  .grid-signals,.grid-bc{grid-template-columns:1fr;gap:28px;}
+  .sov-row{grid-template-columns:repeat(2,1fr);}
+  .sov:nth-child(2){border-right:none;}
+  .sov:nth-child(3){border-top:1px solid var(--rule);padding-left:0;}
+  .sov:nth-child(4){border-top:1px solid var(--rule);}
+  .bc-cols{grid-template-columns:1fr;gap:20px;}
+  .upsell{grid-template-columns:1fr;}
+  .fix{grid-template-columns:1fr;gap:6px;}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<header>
+  <div class="header-line">
+    <span class="brand">Zavient <span>Signal Desk</span></span>
+    <span class="header-meta"><span><b>●</b> monitoring live</span><span>prepared for GridGain</span></span>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-text">
+    <div class="hero-date">Week of July 6–12, 2026</div>
+    <h1>Seven competitor moves this week.</h1>
+    <p class="deck"><em>Two warrant a response before Monday:</em> Northwind cut enterprise pricing 20% and pushed SSO down-tier.</p>
+  </div>
+  <div class="hero-art" aria-hidden="true">
+    <svg viewBox="0 0 260 190" fill="none" stroke="#23301E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <!-- desk -->
+      <path d="M8 152 C 70 150.5, 180 153, 252 151"/>
+      <path d="M14 155.5 C 80 154, 170 156.5, 246 154.5" stroke-opacity="0.3"/>
+      <!-- monitor -->
+      <path d="M26 58 C 25 57, 26.5 56, 28 56 L 116 54 C 118 54, 119 55, 119 57 L 121 118 C 121 120, 120 121, 118 121 L 30 122 C 28 122, 27 121, 27 119 Z"/>
+      <path d="M31 61 L 114 59 L 116 116 L 33 117 Z" stroke-opacity="0.35"/>
+      <!-- screen content squiggles -->
+      <path d="M40 72 C 55 71, 75 72.5, 96 71.5" stroke-opacity="0.55"/>
+      <path d="M40 82 C 58 81, 70 82.5, 104 81" stroke-opacity="0.55"/>
+      <path d="M40 92 C 52 91.5, 66 92.5, 84 91.5" stroke-opacity="0.55"/>
+      <path d="M40 103 L 64 102.5" stroke-opacity="0.55"/>
+      <!-- monitor stand + base -->
+      <path d="M69 122 L 66 138 M80 122 L 82 138"/>
+      <path d="M52 141 C 62 139.5, 86 139.5, 97 141"/>
+      <!-- coffee cup -->
+      <path d="M138 132 C 138 141, 139 145, 141 146 L 152 146 C 154 145, 155 140, 155 132 Z"/>
+      <path d="M155 135 C 161 134, 162 141, 155 142" stroke-opacity="0.8"/>
+      <path d="M144 124 C 143 120, 146 119, 145 115 M150 124 C 149 121, 151 119, 150 116" stroke-opacity="0.4"/>
+      <!-- man: back of head + hair -->
+      <path d="M196 38 C 208 34, 220 40, 223 52 C 225 61, 224 70, 220 77"/>
+      <path d="M198 40 C 194 44, 190 49, 189 55" />
+      <!-- hair hatching -->
+      <path d="M201 39 C 206 41, 212 45, 216 51 M207 37.5 C 212 40, 217 45, 220 51 M213 38 C 217 42, 220 46, 222 51" stroke-opacity="0.5"/>
+      <!-- profile: forehead, nose, lips, chin -->
+      <path d="M189 55 C 188.5 59, 187 61, 185.5 63 C 184.5 64.5, 185 65.5, 186.5 66 C 186 68, 185.5 69, 186.5 70.5 C 186 72, 186 73.5, 187.5 74.5 C 188 77, 190 79, 193 79.5"/>
+      <!-- glasses -->
+      <path d="M188 58.5 C 191 57.5, 195 57.5, 197 58.5 C 198.5 61.5, 196 64, 193 63.5 C 190.5 63, 189 61, 188 58.5 Z" stroke-opacity="0.85"/>
+      <path d="M197 58.5 L 212 60" stroke-opacity="0.85"/>
+      <!-- ear -->
+      <path d="M212 61 C 215 60, 216 63, 214.5 66 C 213.5 68, 211.5 68, 211 66"/>
+      <!-- jaw to neck -->
+      <path d="M193 79.5 C 197 81.5, 202 82, 206 81 C 210 80, 213 78, 215 75.5"/>
+      <path d="M209 81.5 C 210 86, 212 90, 215 93"/>
+      <!-- hand on chin, fist -->
+      <path d="M191 82 C 188 83, 186 86, 186.5 89 C 187 92, 189.5 93.5, 192 93 C 195 92.5, 196.5 90, 196 87"/>
+      <path d="M189 85.5 L 193.5 85 M189.5 88.5 L 194 88" stroke-opacity="0.5"/>
+      <!-- forearm from fist down-right -->
+      <path d="M193 93.5 C 199 100, 208 106, 219 109"/>
+      <path d="M186.5 89.5 C 191 98, 199 106, 210 111"/>
+      <!-- shoulder + back -->
+      <path d="M221 77 C 231 82, 238 92, 241 104 C 243 112, 243.5 122, 243 130"/>
+      <path d="M215 93 C 213 97, 212.5 102, 214 107 C 210 112, 208 120, 208 128"/>
+      <!-- torso base at desk -->
+      <path d="M208 128 C 208 136, 209 144, 210 150 M243 130 C 243.5 137, 243 144, 242 150"/>
+      <!-- shading: under jaw, shoulder -->
+      <path d="M203 84 L 207 86.5 M206 88 L 210 90.5" stroke-opacity="0.4"/>
+      <path d="M228 92 L 234 99 M225 97 L 231 104 M223 103 L 228 109" stroke-opacity="0.35"/>
+      <!-- gaze line, faint -->
+      <path d="M182 63 C 165 70, 145 78, 126 85" stroke-opacity="0.18" stroke-dasharray="1.5 5"/>
+    </svg>
+  </div>
+  <div class="hero-stats">
+    <div class="stat"><div class="n">5</div><div class="l">competitors tracked</div></div>
+    <div class="stat"><div class="n">23</div><div class="l">pages watched</div></div>
+    <div class="stat"><div class="n">40</div><div class="l">AI answers sampled</div></div>
+    <div class="stat"><div class="n hot">2</div><div class="l">high-severity signals</div></div>
+  </div>
+</section>
+
+<nav class="tabbar">
+  <button class="tab active" data-panel="signals">Signals<span class="count">7</span></button>
+  <button class="tab" data-panel="ai">AI answers<span class="count">3</span></button>
+  <button class="tab" data-panel="battle">Battlecards<span class="count">5</span></button>
+</nav>
+
+<main>
+
+<!-- ================= SIGNALS ================= -->
+<div class="panel active" id="signals">
+  <div class="grid-signals">
+    <aside>
+      <div class="rail-title">Tracked</div>
+      <div class="rail-item"><span class="rail-name">Northwind Labs</span><span class="rail-n hot">3</span></div>
+      <div class="rail-item"><span class="rail-name">Cascadia HQ</span><span class="rail-n">2</span></div>
+      <div class="rail-item"><span class="rail-name">Fernbrook</span><span class="rail-n">1</span></div>
+      <div class="rail-item"><span class="rail-name">Atlas Grid</span><span class="rail-n">1</span></div>
+      <div class="rail-item"><span class="rail-name">Quillstack</span><span class="rail-n">0</span></div>
+    </aside>
+
+    <div>
+      <div class="section-head">
+        <span class="section-title">This week's signals</span>
+        <span class="section-note">triaged from 312 raw changes</span>
+      </div>
+
+      <div class="signal">
+        <span class="sev sev-high">High</span>
+        <div>
+          <div class="sig-line"><b>Northwind Labs</b> cut enterprise list price 20% and collapsed three tiers into two.</div>
+          <div class="sig-src">pricing page · caught Tue 4:12am · diff on file</div>
+        </div>
+        <span class="sig-act">Draft counter</span>
+      </div>
+
+      <div class="signal">
+        <span class="sev sev-high">High</span>
+        <div>
+          <div class="sig-line"><b>Northwind Labs</b> moved SSO and audit logs to the mid tier — the two features that justified their enterprise upsell.</div>
+          <div class="sig-src">changelog · Wed · full text archived</div>
+        </div>
+        <span class="sig-act">Draft counter</span>
+      </div>
+
+      <div class="signal">
+        <span class="sev sev-med">Med</span>
+        <div>
+          <div class="sig-line"><b>Cascadia HQ</b> posted 4 roles tagged "applied AI" — first ML hires in 14 months. Roadmap tell.</div>
+          <div class="sig-src">careers page · Thu</div>
+        </div>
+        <span class="sig-act">Watch closer</span>
+      </div>
+
+      <div class="signal">
+        <span class="sev sev-med">Med</span>
+        <div>
+          <div class="sig-line"><b>Atlas Grid</b> G2 reviews: 5 new, and "slow support" now appears in 3 of the last 10. Trend forming.</div>
+          <div class="sig-src">G2 · rolling 30-day</div>
+        </div>
+        <span class="sig-act">Use in card</span>
+      </div>
+
+      <div class="signal">
+        <span class="sev sev-low">Low</span>
+        <div>
+          <div class="sig-line"><b>Fernbrook</b> rewrote homepage hero from "platform" language to "agent" language. Positioning drift, no product change detected.</div>
+          <div class="sig-src">homepage · Fri</div>
+        </div>
+        <span class="sig-act">Watch closer</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= AI ANSWERS ================= -->
+<div class="panel" id="ai">
+
+  <div class="section-head">
+    <span class="section-title">When buyers ask AI, do you exist?</span>
+    <span class="section-note">10 buyer prompts × 4 engines · sampled weekly</span>
+  </div>
+
+  <div class="sov-row">
+    <div class="sov">
+      <div class="sov-engine">ChatGPT</div>
+      <div class="sov-line">
+        <span class="sov-num">4<small>/10</small></span>
+        <svg class="sov-spark" viewBox="0 0 100 26" preserveAspectRatio="none"><polyline points="0,8 20,6 40,10 60,8 80,12 100,16" fill="none" stroke="#8C3B2E" stroke-width="1.5"/></svg>
+      </div>
+      <div class="sov-delta d-down">−1 vs last week</div>
+    </div>
+    <div class="sov">
+      <div class="sov-engine">Claude</div>
+      <div class="sov-line">
+        <span class="sov-num">6<small>/10</small></span>
+        <svg class="sov-spark" viewBox="0 0 100 26" preserveAspectRatio="none"><polyline points="0,12 20,10 40,11 60,10 80,10 100,10" fill="none" stroke="#7E8873" stroke-width="1.5"/></svg>
+      </div>
+      <div class="sov-delta d-flat">no change</div>
+    </div>
+    <div class="sov">
+      <div class="sov-engine">Perplexity</div>
+      <div class="sov-line">
+        <span class="sov-num">3<small>/10</small></span>
+        <svg class="sov-spark" viewBox="0 0 100 26" preserveAspectRatio="none"><polyline points="0,6 20,8 40,7 60,10 80,14 100,19" fill="none" stroke="#8C3B2E" stroke-width="1.5"/></svg>
+      </div>
+      <div class="sov-delta d-down">−2 vs last week</div>
+    </div>
+    <div class="sov">
+      <div class="sov-engine">AI Overviews</div>
+      <div class="sov-line">
+        <span class="sov-num">5<small>/10</small></span>
+        <svg class="sov-spark" viewBox="0 0 100 26" preserveAspectRatio="none"><polyline points="0,16 20,15 40,14 60,13 80,12 100,9" fill="none" stroke="#3A5A40" stroke-width="1.5"/></svg>
+      </div>
+      <div class="sov-delta d-up">+1 vs last week</div>
+    </div>
+  </div>
+
+  <table class="pt">
+    <tr><th style="width:52%">What buyers are asking</th><th>ChatGPT</th><th>Perplexity</th><th>Claude</th></tr>
+    <tr>
+      <td class="q">"Best workflow software for mid-size logistics teams"<span class="lost">slot lost</span></td>
+      <td class="r r-no">Northwind</td>
+      <td class="r r-no">Northwind</td>
+      <td class="r r-yes">You, #2</td>
+    </tr>
+    <tr>
+      <td class="q">"GridGain vs Northwind — which is better?"</td>
+      <td class="r r-part">their page cited</td>
+      <td class="r r-no">their page cited</td>
+      <td class="r r-part">mixed</td>
+    </tr>
+    <tr>
+      <td class="q">"Cheapest alternative to Atlas Grid"</td>
+      <td class="r r-yes">You, #1</td>
+      <td class="r r-yes">You, #3</td>
+      <td class="r r-yes">You, #1</td>
+    </tr>
+    <tr>
+      <td class="q">"Workflow tools with SOC 2 and SSO under $50k"</td>
+      <td class="r r-no">absent</td>
+      <td class="r r-no">absent</td>
+      <td class="r r-no">absent</td>
+    </tr>
+  </table>
+
+  <div class="section-head fix-head">
+    <span class="section-title">So what do you do about it?</span>
+    <span class="section-note">each gap maps to a content fix · ranked by revenue exposure</span>
+  </div>
+
+  <div class="fix">
+    <span class="fix-tag">Missing page</span>
+    <div>
+      <h4>No "GridGain vs Northwind" page exists — so AI cites <em>theirs</em>.</h4>
+      <p>Every engine answering the head-to-head question pulls from Northwind's comparison page, because it's the only structured source. Publish your own and the citation flips.</p>
+      <div class="fix-why">exposure: your #1 competitor owns your highest-intent query</div>
+    </div>
+  </div>
+
+  <div class="fix">
+    <span class="fix-tag">Missing page</span>
+    <div>
+      <h4>"SOC 2 + SSO under $50k" — you qualify, but no page says so.</h4>
+      <p>You're absent from all four engines on a query you should win outright. The facts exist in your docs; no crawlable page states them together. One page fixes it.</p>
+      <div class="fix-why">exposure: compliance-driven buyers never see you</div>
+    </div>
+  </div>
+
+  <div class="upsell">
+    <div>
+      <div class="eyebrow">Add-on · programmatic answer engine</div>
+      <h4>Fourteen gaps like these found. <em>One page at a time is too slow.</em></h4>
+      <p>Generate the full comparison and use-case page library from your product data — every "X vs Y," every "best for [segment]," structured the way AI engines cite. Built on the same system that delivered an 18% CTR lift and $900K in pipeline at a $3B B2B marketplace.</p>
+    </div>
+    <button class="upsell-btn">See the 14 gaps</button>
+  </div>
+</div>
+
+<!-- ================= BATTLECARDS ================= -->
+<div class="panel" id="battle">
+  <div class="grid-bc">
+    <aside>
+      <div class="bc-index-title">Card library · one per competitor</div>
+      <div class="bc-item sel">
+        <div class="bc-item-name">Northwind Labs</div>
+        <div class="bc-item-meta">v3 · Jul 12 · <span class="bc-status st-new">redrafted — 2 new signals</span></div>
+      </div>
+      <div class="bc-item">
+        <div class="bc-item-name">Cascadia HQ</div>
+        <div class="bc-item-meta">v2 · Jul 10 · <span class="bc-status st-ok">current</span></div>
+      </div>
+      <div class="bc-item">
+        <div class="bc-item-name">Atlas Grid</div>
+        <div class="bc-item-meta">v4 · Jul 11 · <span class="bc-status st-ok">current</span></div>
+      </div>
+      <div class="bc-item">
+        <div class="bc-item-name">Fernbrook</div>
+        <div class="bc-item-meta">v1 · Jun 20 · <span class="bc-status st-stale">stale — review suggested</span></div>
+      </div>
+      <div class="bc-item">
+        <div class="bc-item-name">Quillstack</div>
+        <div class="bc-item-meta">v1 · Jun 20 · <span class="bc-status st-ok">current · no new signals</span></div>
+      </div>
+    </aside>
+
+    <div class="bc-doc">
+      <div class="bc-doc-head">
+        <span class="bc-doc-title">Northwind Labs — <em>the price-cut play</em></span>
+        <span class="bc-stamp">draft v3 · Jul 12 · sources on file</span>
+      </div>
+      <div class="bc-changed">▲ changed since v2: price cut + SSO tier move added; old "premium pricing" counter retired</div>
+
+      <div class="bc-cols">
+        <div class="bc-col them">
+          <h5>Their move</h5>
+          <ul>
+            <li><b>20% enterprise price cut</b> plus tier collapse — they're buying growth with margin.</li>
+            <li><b>SSO + audit logs pushed down</b> to mid tier. Their enterprise tier now has no feature moat.</li>
+            <li>G2 sentiment on their support is flat while volume grows — service strain likely.</li>
+          </ul>
+        </div>
+        <div class="bc-col us">
+          <h5>How reps counter</h5>
+          <ul>
+            <li>Don't match price. <b>Sell time-to-live:</b> our median onboarding is weeks, not quarters. A discount doesn't buy back a stalled rollout.</li>
+            <li>Ask the prospect: <b>"What did they remove to fund the cut?"</b> Plant the sustainability question early.</li>
+            <li>If SSO comes up: it's now table stakes for both — <b>shift the bar to audit depth and support SLA</b>, where we hold the edge.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="bc-foot">
+        <span>every claim links to the captured source diff</span>
+        <span class="send">Approve &amp; send to #sales →</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<footer>
+  <span>built by <b>Zavient</b> · moneyball for revenue systems</span>
+  <span>zavient.com · demo instance · refreshed weekly</span>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var tabs = document.querySelectorAll('.tab');
+  var panels = document.querySelectorAll('.panel');
+  tabs.forEach(function(t){
+    t.addEventListener('click', function(){
+      tabs.forEach(function(x){ x.classList.remove('active'); });
+      panels.forEach(function(p){ p.classList.remove('active'); });
+      t.classList.add('active');
+      var target = document.getElementById(t.getAttribute('data-panel'));
+      if (target) target.classList.add('active');
+    });
+  });
+})();
+</script>
+</body>
+</html>
