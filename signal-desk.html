@@ -105,18 +105,20 @@ main{padding:34px 0 20px;}
 .rail-n.hot{color:var(--alert);font-weight:500;}
 
 .signal{
-  display:grid;grid-template-columns:56px 1fr auto;gap:20px;align-items:baseline;
+  display:grid;grid-template-columns:82px 1fr auto;gap:20px;align-items:start;
   padding:15px 0;border-bottom:1px solid var(--rule);
 }
 .signal:first-of-type{border-top:1px solid var(--rule-dark);}
-.sev{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.05em;text-transform:uppercase;}
-.sev::before{content:'●';margin-right:6px;font-size:9px;vertical-align:1px;}
-.sev-high{color:var(--alert);}
-.sev-med{color:var(--brown);}
-.sev-low{color:var(--ink-mute);}
+.sev{font-family:'Source Sans 3',sans-serif;font-size:12.5px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;text-align:center;padding:4px 0;border-radius:3px;margin-top:2px;}
+.sev-high{background:var(--alert);color:#F6F1E7;}
+.sev-med{background:var(--alert-lt);color:var(--alert);}
+.sev-low{background:#E7EBE1;color:var(--ink-mute);}
+.sev-edge{background:var(--green);color:#F6F1E7;}
 .sig-line{font-size:16px;}
 .sig-line b{font-weight:600;}
 .sig-src{margin-top:3px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--ink-mute);}
+.sig-src a{color:var(--blue);text-decoration:none;}
+.sig-src a:hover{text-decoration:underline;}
 .sig-act{
   font-family:'Source Sans 3',sans-serif;font-size:12.5px;font-weight:600;color:var(--blue);cursor:pointer;white-space:nowrap;
 }
@@ -334,14 +336,14 @@ footer b{color:var(--ink);font-weight:500;}
     <div>
       <div class="section-head">
         <span class="section-title">This week's signals</span>
-        <span class="section-note">triaged from 312 raw changes</span>
+        <span class="section-note"><span style="background:var(--alert);color:#F6F1E7;padding:1px 8px;border-radius:3px;font-weight:600;">against you</span> &nbsp;&#183;&nbsp; <span style="background:var(--green);color:#F6F1E7;padding:1px 8px;border-radius:3px;font-weight:600;">in your favor</span> &nbsp;&#183;&nbsp; triaged from 312 raw changes</span>
       </div>
 
       <div class="signal">
         <span class="sev sev-high">High</span>
         <div>
           <div class="sig-line"><b>Northwind Labs</b> cut enterprise list price 20% and collapsed three tiers into two.</div>
-          <div class="sig-src">pricing page · caught Tue 4:12am · diff on file</div>
+          <div class="sig-src">pricing page · caught Tue 4:12am · <a href="#">view source</a></div>
         </div>
         <span class="sig-act">Draft counter</span>
       </div>
@@ -350,7 +352,7 @@ footer b{color:var(--ink);font-weight:500;}
         <span class="sev sev-high">High</span>
         <div>
           <div class="sig-line"><b>Northwind Labs</b> moved SSO and audit logs to the mid tier — the two features that justified their enterprise upsell.</div>
-          <div class="sig-src">changelog · Wed · full text archived</div>
+          <div class="sig-src">changelog · Wed · <a href="#">view source</a></div>
         </div>
         <span class="sig-act">Draft counter</span>
       </div>
@@ -359,16 +361,16 @@ footer b{color:var(--ink);font-weight:500;}
         <span class="sev sev-med">Med</span>
         <div>
           <div class="sig-line"><b>Cascadia HQ</b> posted 4 roles tagged "applied AI" — first ML hires in 14 months. Roadmap tell.</div>
-          <div class="sig-src">careers page · Thu</div>
+          <div class="sig-src">careers page · Thu · <a href="#">view postings</a></div>
         </div>
-        <span class="sig-act">Watch closer</span>
+        <span class="sig-act">Use in card</span>
       </div>
 
       <div class="signal">
-        <span class="sev sev-med">Med</span>
+        <span class="sev sev-edge">Edge</span>
         <div>
-          <div class="sig-line"><b>Atlas Grid</b> G2 reviews: 5 new, and "slow support" now appears in 3 of the last 10. Trend forming.</div>
-          <div class="sig-src">G2 · rolling 30-day</div>
+          <div class="sig-line"><b>Atlas Grid</b> G2 reviews: 5 new, and "slow support" now appears in 3 of the last 10. Trend forming — ammunition for your reps.</div>
+          <div class="sig-src">G2 · rolling 30-day · <a href="#">view reviews</a></div>
         </div>
         <span class="sig-act">Use in card</span>
       </div>
@@ -377,9 +379,9 @@ footer b{color:var(--ink);font-weight:500;}
         <span class="sev sev-low">Low</span>
         <div>
           <div class="sig-line"><b>Fernbrook</b> rewrote homepage hero from "platform" language to "agent" language. Positioning drift, no product change detected.</div>
-          <div class="sig-src">homepage · Fri</div>
+          <div class="sig-src">homepage · Fri · <a href="#">view source</a></div>
         </div>
-        <span class="sig-act">Watch closer</span>
+        <span class="sig-act">Use in card</span>
       </div>
     </div>
   </div>
@@ -521,7 +523,7 @@ footer b{color:var(--ink);font-weight:500;}
         <span class="bc-doc-title">Northwind Labs — <em>the price-cut play</em></span>
         <span class="bc-stamp">draft v3 · Jul 12 · sources on file</span>
       </div>
-      <div class="bc-changed">▲ changed since v2: price cut + SSO tier move added; old "premium pricing" counter retired</div>
+      <div class="bc-changed">▲ changed since last version: price cut + SSO tier move added; old "premium pricing" counter retired</div>
 
       <div class="bc-cols">
         <div class="bc-col them">
@@ -543,7 +545,7 @@ footer b{color:var(--ink);font-weight:500;}
       </div>
 
       <div class="bc-foot">
-        <span>every claim links to the captured source diff</span>
+        <span>every claim links to the captured source</span>
         <span class="send">Approve &amp; send to #sales →</span>
       </div>
     </div>
